@@ -9,8 +9,8 @@ public static class CategoryEndpoints
         var categories = group.MapGroup("/categories");
         categories.MapGet("/", GetAll);
         categories.MapPost("/add", Add);
-        categories.MapPost("/edit", Update);
-        categories.MapDelete("/delete", Delete);
+        categories.MapPost("/edit/{id:int}", Update);
+        categories.MapDelete("/delete/{id:int}", Delete);
         return categories;
     }
 

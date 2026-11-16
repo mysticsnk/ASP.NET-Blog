@@ -1,0 +1,24 @@
+GET http://localhost:5187/api/v1/posts HTTP/1.1
+
+###
+POST http://localhost:5187/api/v1/posts/add HTTP/1.1
+Content-Type: application/json
+
+{
+  "Title": "About vibecoding",
+  "Body": "Vibecoding is actually quite dumb, I hate it, shame it's the new industry standard",
+  "Slug": "about-vibecoding"
+}
+
+###
+POST http://localhost:5187/api/v1/posts/edit/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "About live coding",
+    "body": "Live coding is so good to be honest, miss when that was the norm",
+    "slug": "about-livecoding"
+}
+
+###
+DELETE http://localhost:5187/api/v1/posts/delete/1 HTTP/1.1

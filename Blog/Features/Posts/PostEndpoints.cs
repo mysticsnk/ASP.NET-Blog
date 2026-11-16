@@ -8,14 +8,14 @@ public static class PostEndpoints
     {
         RouteGroupBuilder posts = builder.MapGroup("/posts");
         posts.MapGet("/", GetAll);
-        posts.MapGet("/id", GetById);
-        posts.MapGet("/slug", GetBySlug);
+        posts.MapGet("/id/{id:int}", GetById);
+        posts.MapGet("/slug/{slug:string}", GetBySlug);
         posts.MapGet("/add", GetPostForm);
         posts.MapGet("/q", QuerySearch);
         
         posts.MapPost("/add", Add);
-        posts.MapPost("/edit", Update);
-        posts.MapDelete("/delete", Delete);
+        posts.MapPost("/edit/{id:int}", Update);
+        posts.MapDelete("/delete/{id:int}", Delete);
         
         return posts;
     }

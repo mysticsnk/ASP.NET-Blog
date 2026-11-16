@@ -4,10 +4,12 @@ namespace Blog.Features.Posts;
 
 public class PostRequest
 {
-    public string Slug { get; set; }
+    public string Slug { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Body { get; set; } = string.Empty;
-    public List<Category> Categories { get; set; } = new();
+    public List<Category>? Categories { get; set; } = new();
+
+    public PostRequest(){ }
     
     public PostRequest(string slug, string title, string body)
     {
@@ -16,7 +18,7 @@ public class PostRequest
         Body = body;
     }
 
-    public PostRequest(string slug, string title, string body, List<Category> categories)
+    public PostRequest(string slug, string title, string body, List<Category>? categories)
     {
         Slug = slug;
         Title = title;
