@@ -7,15 +7,39 @@ public static class PostEndpoints
     public static RouteGroupBuilder MapPostEndpoints(this RouteGroupBuilder builder)
     {
         RouteGroupBuilder posts = builder.MapGroup("/posts");
-        posts.MapGet("/", GetAll);
-        posts.MapGet("/id/{id:int}", GetById);
-        posts.MapGet("/slug/{slug:string}", GetBySlug);
-        posts.MapGet("/add", GetPostForm);
-        posts.MapGet("/q", QuerySearch);
+        posts.MapGet("/", GetAll)
+            .WithName("GET Posts")
+            .WithSummary("Returns all posts")
+            .Produces<List<Post>>();
+        posts.MapGet("/id/{id:int}", GetById)
+            .WithName("Get by Id")
+            .WithSummary("Returns a post by it's Id")
+            .Produces<Post?>();
+        posts.MapGet("/slug/{slug}", GetBySlug)
+            .WithName("Get by slug")
+            .WithSummary("Returns a post by it's slug")
+            .Produces<Post?>();
+        posts.MapGet("/add", GetPostForm)
+            .WithName("Get post's form")
+            .WithSummary("Returns a form of what the post needs to be created.");
+        posts.MapGet("/q", QuerySearch)
+            .WithName("Search by title")
+            .WithSummary("Accepts a query parameter to look for a certain title");
         
-        posts.MapPost("/add", Add);
-        posts.MapPost("/edit/{id:int}", Update);
-        posts.MapDelete("/delete/{id:int}", Delete);
+        posts.MapPost("/add", Add)
+            .WithName("Create a post")
+            .WithSummary("Creates a post using a post's request")
+            .Accepts<PostRequest>("application/json")
+            .Produces<Post>();
+        posts.MapPost("/edit/{id:int}", Update)
+            .WithName("Update a Post")
+            .WithSummary("Accepts an Id, a PostRequest and updates it")
+            .Accepts<PostRequest>("application/json")
+            .Produces<Post>();
+
+        posts.MapDelete("/delete/{id:int}", Delete)
+            .WithName("Delete a post")
+            .WithSummary("Deletes a post by it's Id");
         
         return posts;
     }
@@ -42,7 +66,7 @@ public static class PostEndpoints
 
     public static IResult GetPostForm()
     {
-        return Results.Ok("");
+        return Results.Ok("[\n  {\n    \"Name\": \"slug\",\n    \"Type\": \"String\",\n    \"FullType\": \"System.String\",\n    \"IsNullable\": false\n  },\n  {\n    \"Name\": \"title\",\n    \"Type\": \"String\",\n    \"FullType\": \"System.String\",\n    \"IsNullable\": false\n  },\n  {\n    \"Name\": \"body\",\n    \"Type\": \"String\",\n    \"FullType\": \"System.String\",\n    \"IsNullable\": false\n  },\n  {\n    \"Name\": \"categories\",\n    \"Type\": \"List`1\",\n    \"FullType\": \"System.Collections.Generic.List`1[[Category, Blog]]\",\n    \"IsNullable\": true\n  }\n]");
     }
 
     public static IResult Add(PostRequest req, PostService svc)
